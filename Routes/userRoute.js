@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const {
   createUser,
   getAllUser,
@@ -8,10 +7,8 @@ const {
   updateUser,
 } = require("../controller/userController");
 const router = express.Router();
-app.use(cors());
-app.options("/", cors()); // enable pre-flight requests
-app.post(createUser);
-router.route("/").get(getAllUser);
+
+router.route("/").get(getAllUser).post(createUser);
 router.route("/:id").get(getUser).delete(deleteUser).patch(updateUser);
 
 module.exports = router;

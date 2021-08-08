@@ -71,7 +71,7 @@ const createUser = async (req, res) => {
       ...req.body,
       CurrentSigninAt,
     });
-    res.status(200).json({
+    res.status(201).json({
       status: "success",
       data: {
         newUser,

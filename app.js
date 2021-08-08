@@ -15,6 +15,7 @@ app.use(function (req, res, next) {
     "Access-Control-Allow-Headers",
     "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json"
   );
+  res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers");
   next();
 });
 

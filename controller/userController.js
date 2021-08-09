@@ -1,5 +1,5 @@
 const Users = require("../Models/userModel");
-
+const sgMail = require("@sendgrid/mail");
 const getAllUser = async (req, res) => {
   try {
     const users = await Users.find();
@@ -66,6 +66,7 @@ const updateUser = async (req, res) => {
 };
 const createUser = async (req, res) => {
   try {
+    console.log(req.body);
     let CurrentSigninAt = new Date().toISOString();
     const newUser = await Users.create({
       ...req.body,
@@ -84,5 +85,34 @@ const createUser = async (req, res) => {
     });
   }
 };
+const Sendmail = async (req, res) => {
+  const { message, email, header } = req.body;
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: email, // Change to your recipient
+    from: "luancauthu@gmail.com", // Change to your verified sender
+    subject: header,
+    text: message,
+    html: `<strong>${message}</strong>`,
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+      res.status(201).json({
+        status: "ok roi do",
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
-module.exports = { createUser, getAllUser, getUser, deleteUser, updateUser };
+module.exports = {
+  createUser,
+  getAllUser,
+  getUser,
+  deleteUser,
+  updateUser,
+  Sendmail,
+};
